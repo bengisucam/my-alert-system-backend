@@ -6,6 +6,7 @@ import com.example.myalertsystem.model.Response;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,8 +54,6 @@ public class AlertService {
     }
 
 
-    @Async
-    @Scheduled(fixedRate = 1000)
     public void getResponse(Alert alert) throws IOException {
 
         String desiredMethod = alert.getHttpMethod();
