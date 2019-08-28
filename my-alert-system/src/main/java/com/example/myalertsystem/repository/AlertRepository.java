@@ -1,5 +1,6 @@
 package com.example.myalertsystem.repository;
 
+import com.example.myalertsystem.model.Response;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.myalertsystem.model.Alert;
 
@@ -15,4 +16,6 @@ public interface AlertRepository extends  JpaRepository<Alert, Long>{
 
     @Override
     Alert save(Alert alert);
+
+    Response save(Response response);
 }

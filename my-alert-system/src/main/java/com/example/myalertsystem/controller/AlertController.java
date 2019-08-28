@@ -1,9 +1,11 @@
 package com.example.myalertsystem.controller;
 
+import com.example.myalertsystem.model.Response;
 import org.springframework.web.bind.annotation.*;
 import com.example.myalertsystem.model.Alert;
 import com.example.myalertsystem.services.AlertService;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -33,6 +35,12 @@ public class AlertController {
     @PutMapping("/alerts")
     public Alert updateAlert(@RequestBody final Alert alert, @RequestParam Long alertId){
         return alertService.updateAlert(alert, alertId);
+    }
+
+
+    @PostMapping("/alerts/responses")
+    public Response getResponse(final @RequestBody Alert alert) throws IOException {
+        return alertService.getResponse(alert);
     }
 
 

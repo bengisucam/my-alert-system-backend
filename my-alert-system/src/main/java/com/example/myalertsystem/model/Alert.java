@@ -2,16 +2,16 @@ package com.example.myalertsystem.model;
 
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -19,38 +19,39 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SequenceGenerator(name="alertSeq", initialValue=1, allocationSize=1000)
 public class Alert {
 
 
-    @Id  // tablo için id oluşturur?
-    @GeneratedValue  //counter tutar, yeni value gelince id yi kendisi unique bi şekilde artırır
-    @Column(name = "alertId")
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="alertSeq")
+    @Column(name="alert_id")
     private Long alertId;
 
-    @NotEmpty
-   // @Column(name= "name")
+   // @NotEmpty
+    @Column(name="name")
     private  String name;
 
     @URL
-    @NotEmpty
-   // @Column(name = "url")
+   // @NotEmpty
+    @Column(name="url")
     private String url;
 
-    @NotEmpty
-   // @Column(name = "httpMethod")
+   // @NotEmpty
+    @Column(name = "http_method")
     private String httpMethod;
 
-    @NotEmpty
-   // @Column(name = "controlPeriod")
+   // @NotEmpty
+    @Column(name = "control_period")
     private Long controlPeriod;
 
-
-    public void setSubmitDate(Date submitDate) {
-        this.submitDate = submitDate;
-    }
-
-    // @Column(name = "submitDate")
+    @DateTimeFormat
+    @Column(name ="submit_date")
     private Date submitDate;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn( name = "alert_id")
+    private Set<Response> responses;
 
 
 }
