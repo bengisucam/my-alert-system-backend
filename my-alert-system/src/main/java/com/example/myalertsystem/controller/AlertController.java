@@ -19,29 +19,36 @@ public class AlertController {
         this.alertService = alertService;
     }
 
-    @PostMapping("/alerts")
+    @PostMapping("/addAlert")
     public Alert addAlert(@RequestBody final Alert alert){ return alertService.addAlert(alert);  }
 
-    @DeleteMapping("/alerts/{alertId}")
+    @DeleteMapping("/deleteAlert/{alertId}")
     public void deleteAlert(@PathVariable final Long alertId){
         alertService.deleteAlert(alertId);
     }
 
-    @GetMapping("/alerts")
+    @GetMapping("/getAlerts")
     public List<Alert> getAlerts(){
         return alertService.getAlerts();
     }
 
-    @PutMapping("/alerts")
+    @GetMapping("/getSingleAlert/{alertId}")
+    public Alert getSingleAlert(@PathVariable final Long alertId){
+        return alertService.getSingleAlert(alertId);
+    }
+
+    @PutMapping("/putAlerts")
     public Alert updateAlert(@RequestBody final Alert alert, @RequestParam Long alertId){
         return alertService.updateAlert(alert, alertId);
     }
 
 
+/*
     @PostMapping("/alerts/responses")
     public Response getResponse(final @RequestBody Alert alert) throws IOException {
         return alertService.getResponse(alert);
     }
+*/
 
 
 

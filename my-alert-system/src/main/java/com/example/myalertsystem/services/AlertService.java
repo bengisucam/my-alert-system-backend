@@ -5,9 +5,6 @@ import com.example.myalertsystem.model.Alert;
 import com.example.myalertsystem.model.Response;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,17 +29,19 @@ public class AlertService {
 
     public Alert addAlert(final Alert alert){
         var currentDate = new Date();
-        alert.setSubmitDate(currentDate);
         alert.setResponses(new HashSet<>());
-//        getResponse(alert);
         return alertRepository.save(alert);
     }
 
-    public void deleteAlert(final Long alertID ){
-        alertRepository.deleteByAlertId(alertID);
+    public void deleteAlert(final Long alertId ){
+        alertRepository.deleteByAlertId(alertId);
     }
 
     public List<Alert> getAlerts() { return  this.alertRepository.findAll(); }
+
+    public Alert getSingleAlert(final Long alertId) { return  this.alertRepository.findByAlertId(alertId); }
+
+
 
     public Alert updateAlert(final Alert alert, final Long alertId) {
         Alert alert_from_db= alertRepository.findByAlertId(alertId);
@@ -54,27 +53,6 @@ public class AlertService {
     }
 
 
-    public void getResponse(Alert alert) throws IOException {
 
-        String desiredMethod = alert.getHttpMethod();
-        String desiredUrl = alert.getUrl();
-        URL url = new URL(desiredUrl);
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        urlConnection.setRequestMethod(desiredMethod);
-
-        Response responseObj = new Response();
-        responseObj.setTimeLeft(21);
-        if(urlConnection.getResponseCode() != 200){
-            responseObj.setResponseValue("0");
-        }
-        else { responseObj.setResponseValue("1");}
-
-        Alert alertFromRequest = alertRepository.findByAlertId(alert.getAlertId());
-        alertFromRequest.getResponses().add(responseObj);
-        Alert savedAlert = alertRepository.save(alertFromRequest);
-
-        System.out.println("Response Code:"+ urlConnection.getResponseCode());
-        System.out.println(savedAlert.getResponses());
-    }
 
 }

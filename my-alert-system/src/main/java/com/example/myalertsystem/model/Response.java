@@ -2,8 +2,10 @@ package com.example.myalertsystem.model;
 
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
@@ -12,18 +14,18 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@SequenceGenerator(name="responseSeq", initialValue=1, allocationSize=1000)
 public class Response {
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="responseSeq")
-   // @Column(name = "response_id")
+    @Column(name = "response_id")
     private Long responseId;
 
-   // @Column(name = "time_left")
-    private int timeLeft;
-
-   // @Column(name = "response_value")
+    @Column(name = "response_value")
     private String responseValue;
+
+    @DateTimeFormat
+    @Column(name ="response_time")
+    private Date responseTime;
 
 }
